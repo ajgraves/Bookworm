@@ -45,9 +45,33 @@ struct AddBookView: View {
                         dismiss()
                     }
                 }
+                .disabled(hasValidData() == false)
             }
             .navigationTitle("Add Book")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", role: .cancel) {
+                        dismiss()
+                    }
+                }
+            }
         }
+    }
+    
+    // Don't allow us to save the form if the fields are empty
+    func hasValidData() -> Bool {
+        if title.isReallyEmpty || author.isReallyEmpty || genre.isReallyEmpty || review.isReallyEmpty {
+            return false
+        }
+        
+        return true
+    }
+}
+
+// We're checking if a string, ecluding spaces and newlines, is empty
+extension String {
+    var isReallyEmpty: Bool {
+        self.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
 
